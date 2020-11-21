@@ -8,11 +8,11 @@ const {
 } = require(`../../utils.js`);
 
 const DEFAULT_COUNT = 1;
-const FILE_NAME = `../../mock.json`;
+const FILE_NAME = `./mock.json`;
 
-const FILE_CATEGORIES_PATH = `../../data/categories.txt`;
-const FILE_SENTENCES_PATH = `../../data/sentences.txt`;
-const FILE_TITLES_PATH = `../../data/titles.txt`;
+const FILE_CATEGORIES_PATH = `./data/categories.txt`;
+const FILE_SENTENCES_PATH = `./data/sentences.txt`;
+const FILE_TITLES_PATH = `./data/titles.txt`;
 
 const DateRestrict = {
   MIN: 0,
@@ -25,8 +25,10 @@ const generateDate = () => {
   return new Date(time).toUTCString();
 };
 
-const generatePosts = (count, titles, sentences, categories) => (
-  Array(count)
+const generatePosts = (count, options) => {
+  const {titles, sentences, categories} = options;
+  
+  return Array(count)
     .fill({})
     .map(() => ({
       title: titles[getRandomInt(0, titles.length - 1)],
@@ -35,12 +37,12 @@ const generatePosts = (count, titles, sentences, categories) => (
       fullText: shuffle(sentences).slice(1, 10).join(` `),
       category: [categories[getRandomInt(0, categories.length - 1)]],
     }))
-);
+};
 
 const readContent = async (filePath) => {
   try {
     const content = await fs.readFile(filePath, `utf-8`);
-    return content.split(`\n`);
+    return content.trim().split(`\n`).filter(it => it.trim());
   } catch (err) {
     console.error(chalk.red(err));
     return [];
@@ -50,12 +52,15 @@ const readContent = async (filePath) => {
 module.exports = {
   name: `--generate`,
   async run(args) {
-    const titles = await readContent(FILE_TITLES_PATH);
-    const sentences = await readContent(FILE_SENTENCES_PATH);
-    const categories = await readContent(FILE_CATEGORIES_PATH);
+    const options = {
+      titles: await readContent(FILE_TITLES_PATH),
+      sentences: await readContent(FILE_SENTENCES_PATH),
+      categories: await readContent(FILE_CATEGORIES_PATH),
+    };
+    
     const [count] = args;
     const countPosts = Number.parseInt(count, 10) || DEFAULT_COUNT;
-    const content = JSON.stringify(generatePosts(countPosts, titles, sentences, categories));
+    const content = JSON.stringify(generatePosts(countPosts, options));
 
     try {
       await fs.writeFile(FILE_NAME, content);
