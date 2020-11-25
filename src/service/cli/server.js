@@ -20,7 +20,7 @@ const sendResponse = (res, options) => {
         <title>From Node with love!</title>
       </head>
       <body>${message}</body>
-    </html>`.trim();
+    </html>`;
 
   res.statusCode = statusCode;
   res.writeHead(statusCode, {
