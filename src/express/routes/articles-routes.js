@@ -5,19 +5,19 @@ const { Router } = require(`express`);
 const articlesRoutes = new Router();
 
 articlesRoutes.get(`/add`, (req, res) => {
-  res.send(`/articles/add`);
+  res.render(`articles/add`);
 });
 
 articlesRoutes.get(`/category/:id`, (req, res) => {
-  res.send(`/articles/category/${req.params.id}`);
+  res.render(`articles/category`);
 });
 
 articlesRoutes.get(`/edit/:id`, (req, res) => {
-  res.send(`/articles/edit/${req.params.id}`);
+  res.render(`articles/edit`);
 });
 
 articlesRoutes.get(`/:id`, (req, res) => {
-  res.send(`/articles/${req.params.id}`);
+  res.render(`articles/post`);
 });
 
 module.exports = articlesRoutes;
