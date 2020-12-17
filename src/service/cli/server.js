@@ -7,6 +7,7 @@ const { HttpCode } = require(`../../constants`);
 
 const DEFAULT_PORT = 3000;
 const FILE_NAME = `mock.json`;
+const DEFAULT_DATA = [];
 
 const app = express();
 
@@ -17,9 +18,7 @@ app.get(`/posts`, async (req, res) => {
     const mocks = JSON.parse(fileContent);
     res.json(mocks);
   } catch (err) {
-    res
-      .status(HttpCode.INTERNAL_SERVER_ERROR)
-      .send(err);
+    res.json(DEFAULT_DATA);
   }
 });
 
