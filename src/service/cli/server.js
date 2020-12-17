@@ -18,7 +18,7 @@ app.get(`/posts`, async (req, res) => {
     const mocks = JSON.parse(fileContent);
     res.json(mocks);
   } catch (err) {
-    res.json(DEFAULT_DATA);
+    res.send(DEFAULT_DATA);
   }
 });
 
