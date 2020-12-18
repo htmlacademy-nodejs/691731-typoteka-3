@@ -16,7 +16,7 @@ mainRoutes.get(`/login`, (req, res) => {
 });
 
 mainRoutes.get(`/search`, (req, res) => {
-  res.render(`search`);
+  res.render(`search`, { isColorBackground: `baseColor` });
 });
 
 mainRoutes.get(`/categories`, (req, res) => {

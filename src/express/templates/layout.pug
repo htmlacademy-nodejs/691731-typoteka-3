@@ -2,9 +2,11 @@ case isColorBackground
   when undefined
     - var wrapperColor = ``
   when `color`
-    - var wrapperColor = `wrapper--color`
+    - var wrapperColor = ` wrapper--color`
   when `noColor`
-    - var wrapperColor = `wrapper--nobackground`
+    - var wrapperColor = ` wrapper--nobackground`
+  when `baseColor`
+    - var wrapperColor = `-color`
 
 html(lang=ru)
   head
@@ -18,7 +20,7 @@ html(lang=ru)
     link(rel='preload' href='/fonts/SFProDisplay-Regular.woff2' as='font' crossorigin='anonymous')
     link(rel='stylesheet' href='/css/style.min.css')
   body
-    div(class=`wrapper ${wrapperColor}`)
+    div(class=`wrapper${wrapperColor}`)
       include partials/header
       block content
       include partials/footer
