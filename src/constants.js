@@ -17,3 +17,9 @@ module.exports.HttpCode = {
   BAD_REQUEST: 404,
   INTERNAL_SERVER_ERROR: 500,
 };
+
+module.exports.MessageStatus = {
+  SUCCESS: `success`,
+  FAIL: `fail`,
+  ERROR: `error`,
+};

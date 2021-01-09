@@ -3,7 +3,7 @@
 const chalk = require(`chalk`);
 const express = require(`express`);
 const routes = require(`../api`);
-const {API_PREFIX, ExitCode, HttpCode} = require(`../../constants`);
+const {API_PREFIX, ExitCode, HttpCode, MessageStatus} = require(`../../constants`);
 
 const DEFAULT_PORT = 3000;
 
@@ -14,13 +14,17 @@ app.use(API_PREFIX, routes);
 app.use((req, res) => {
   res
     .status(HttpCode.BAD_REQUEST)
-    .send(`Not found`);
+    .json({
+      message: MessageStatus.ERROR,
+      data: []
+    });
 });
 app.use((err, req, res, _next) => {
   res
     .status(HttpCode.INTERNAL_SERVER_ERROR)
     .json({
-      message: ``
+      message: MessageStatus.FAIL, // Ощибку в зависимости от режима запуска реализую в следующем задании
+      data: []
     });
 });
 

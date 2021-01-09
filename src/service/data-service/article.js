@@ -57,7 +57,7 @@ class ArticleService {
       }, article);
 
 
-    return Object.assign(oldArticle, newArticle);
+    return Object.assign({}, oldArticle, newArticle);
   }
 
   /**

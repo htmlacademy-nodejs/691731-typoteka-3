@@ -1,9 +1,9 @@
 'use strict';
 
 const {Router} = require(`express`);
-const {HttpCode} = require(`../../constants`);
+const {HttpCode, MessageStatus} = require(`../../constants`);
 const articleExist = require(`../middleware/article-exist`);
-const articleValidator = require(`../middleware/article-validaor`);
+const articleValidator = require(`../middleware/article-validator`);
 const commentValidator = require(`../middleware/comment-validator`);
 
 const route = new Router();
@@ -16,7 +16,10 @@ module.exports = (app, articleService, commentService) => {
     const articles = articleService.findAll();
     return res
       .status(HttpCode.OK)
-      .json(articles);
+      .json({
+        status: MessageStatus.SUCCESS,
+        data: articles
+      });
   });
 
   // GET /api/articles/:articleId — return article with some id
@@ -28,14 +31,17 @@ module.exports = (app, articleService, commentService) => {
       return res
         .status(HttpCode.NOT_FOUND)
         .json({
-          status: `error`,
+          status: MessageStatus.ERROR,
           data: [],
         });
     }
 
     return res
       .status(HttpCode.OK)
-      .json(article);
+      .json({
+        status: MessageStatus.SUCCESS,
+        data: article
+      });
   });
 
   // POST /api/articles — create new article;
@@ -45,7 +51,10 @@ module.exports = (app, articleService, commentService) => {
       const article = articleService.create(req.body);
       return res
         .status(HttpCode.CREATED)
-        .json(article);
+        .json({
+          status: MessageStatus.SUCCESS,
+          data: article
+        });
     } catch (err) {
       next(err);
     }
@@ -60,7 +69,7 @@ module.exports = (app, articleService, commentService) => {
       return res
         .status(HttpCode.NOT_FOUND)
         .json({
-          status: `error`,
+          status: MessageStatus.ERROR,
           data: []
         });
     }
@@ -69,7 +78,10 @@ module.exports = (app, articleService, commentService) => {
 
     return res
       .status(HttpCode.OK)
-      .json(updateArticle);
+      .json({
+        status: MessageStatus.SUCCESS,
+        data: updateArticle
+      });
   });
 
   // DELETE /api/articles/:articleId — delete article with some id;
@@ -80,12 +92,18 @@ module.exports = (app, articleService, commentService) => {
     if (!article) {
       return res
         .status(HttpCode.NOT_FOUND)
-        .send(`Article with id ${articleId} didn't found`);
+        .json({
+          status: MessageStatus.ERROR,
+          data: []
+        });
     }
 
     return res
       .status(HttpCode.OK)
-      .json(article);
+      .json({
+        status: MessageStatus.SUCCESS,
+        data: article
+      });
   });
 
   // GET /api/articles/:articleId/comments — return list of comments from article with some id;
@@ -95,7 +113,10 @@ module.exports = (app, articleService, commentService) => {
 
     return res
       .status(HttpCode.OK)
-      .json(comments);
+      .json({
+        status: MessageStatus.SUCCESS,
+        data: comments
+      });
   });
 
   // DELETE /api/articles/:articleId/comments/:commentId — удаляет из определённой публикации комментарий с идентификатором
@@ -107,21 +128,35 @@ module.exports = (app, articleService, commentService) => {
     if (!deletedComment) {
       return res
         .status(HttpCode.NOT_FOUND)
-        .send(`Not found`);
+        .json({
+          status: MessageStatus.ERROR,
+          data: {}
+        });
     }
 
     return res
       .status(HttpCode.OK)
-      .json(deletedComment);
+      .json({
+        status: MessageStatus.SUCCESS,
+        data: deletedComment
+      });
   });
 
   // POST /api/articles/:articleId/comments — создаёт новый комментарий;
-  route.post(`/:articleId/comments`, [articleExist(articleService), commentValidator], (req, res) => {
-    const {article} = res.locals;
-    const comment = commentService.create(article, req.body);
+  // eslint-disable-next-line consistent-return
+  route.post(`/:articleId/comments`, [articleExist(articleService), commentValidator], (req, res, next) => {
+    try {
+      const {article} = res.locals;
+      const comment = commentService.create(article, req.body);
 
-    return res
-      .status(HttpCode.OK)
-      .json(comment);
+      return res
+        .status(HttpCode.OK)
+        .json({
+          status: MessageStatus.SUCCESS,
+          data: comment
+        });
+    } catch (err) {
+      next(err);
+    }
   });
 };

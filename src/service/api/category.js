@@ -1,7 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
-const {HttpCode} = require(`../../constants`);
+const {HttpCode, MessageStatus} = require(`../../constants`);
 
 const route = new Router();
 
@@ -9,10 +9,13 @@ module.exports = (app, categoryService) => {
   app.use(`/categories`, route);
 
   // GET /api/categories — возвращает список категорий
-  route.get(`/`, async (req, res) => {
+  route.get(`/`, async (_req, res) => {
     const categories = await categoryService.findAll();
     res
       .status(HttpCode.OK)
-      .json(categories);
+      .json({
+        status: MessageStatus.SUCCESS,
+        data: categories
+      });
   });
 };
