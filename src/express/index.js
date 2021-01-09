@@ -8,7 +8,7 @@ const articlesRoutes = require(`./routes/articles-routes`);
 const mainRoutes = require(`./routes/main-routes`);
 const myRoutes = require(`./routes/my-routes`);
 
-const { HttpCode } =require(`../constants`);
+const {HttpCode} = require(`../constants`);
 
 const app = express();
 const PORT = 8000;
@@ -29,11 +29,11 @@ app.use((req, res) => {
     .render(`errors/404`);
 });
 
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   console.log(err);
   res
     .status(HttpCode.INTERNAL_SERVER_ERROR)
-    .render( `errors/500`);
+    .render(`errors/500`);
 });
 
 app.listen(PORT, () => {
