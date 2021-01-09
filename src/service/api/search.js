@@ -1,7 +1,7 @@
 'use strict';
 
-const { Router } = require(`express`);
-const { HttpCode } = require(`../../constants`);
+const {Router} = require(`express`);
+const {HttpCode} = require(`../../constants`);
 
 const route = new Router();
 
@@ -10,7 +10,7 @@ module.exports = (app, searchService) => {
 
   // GET /api/search?query= — возвращает результаты поиска. Поиск публикаций выполняется по заголовку. Публикация соответствует поиску в случае наличия хотя бы одного вхождения искомой фразы.
   route.get(`/`, (req, res) => {
-    const { query = `` } = req.query;
+    const {query = ``} = req.query;
 
     if (!query) {
       return res

@@ -6,6 +6,7 @@ class CategoryService {
   }
   /**
    * Return list of all categories
+   * @return {Array} list of categories
    */
   findAll() {
     const categories = this._posts.reduce((acc, post) => {
@@ -15,6 +16,6 @@ class CategoryService {
 
     return [...categories];
   }
-};
+}
 
 module.exports = CategoryService;

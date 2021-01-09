@@ -1,23 +1,23 @@
 'use strict';
 
-const { nanoid } = require(`nanoid`);
-const { MAX_ID_LENGTH } = require(`../../constants`);
+const {nanoid} = require(`nanoid`);
+const {MAX_ID_LENGTH} = require(`../../constants`);
 
 class CommentService {
   /**
    * Return all coments from Article
    * @param {Object} article
-   * @returns {Array} comments 
+   * @return {Array} comments
    */
   findAll(article) {
-    return article.comments
+    return article.comments;
   }
 
   /**
    * Delete some comment with commentId
-   * @param {Object} article 
+   * @param {Object} article
    * @param {String} commentId
-   * @returns {String} deleted comments 
+   * @return {String} deleted comments
    */
   drop(article, commentId) {
     const dropComment = article.comments.find((comment) => comment.id === commentId);
@@ -33,9 +33,9 @@ class CommentService {
 
   /**
    * Create new comment to some article
-   * @param {Object} article 
+   * @param {Object} article
    * @param {String} comment
-   * @returns {String} new comment
+   * @return {String} new comment
    */
   create(article, comment) {
     const newComment = Object.assign({

@@ -15,7 +15,7 @@ const getMockData = async () => {
 
   try {
     const fileContent = await fs.readFile(path.resolve(__dirname, FILE_NAME));
-    data = JSON.parse(fileContent)
+    data = JSON.parse(fileContent);
   } catch (err) {
     console.error(chalk.red(err));
   }

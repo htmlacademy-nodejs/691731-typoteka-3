@@ -3,7 +3,7 @@
 const chalk = require(`chalk`);
 const express = require(`express`);
 const routes = require(`../api`);
-const { API_PREFIX, ExitCode, HttpCode } = require(`../../constants`);
+const {API_PREFIX, ExitCode, HttpCode} = require(`../../constants`);
 
 const DEFAULT_PORT = 3000;
 
@@ -16,21 +16,24 @@ app.use((req, res) => {
     .status(HttpCode.BAD_REQUEST)
     .send(`Not found`);
 });
+app.use((err, req, res, _next) => {
+  res
+    .status(HttpCode.INTERNAL_SERVER_ERROR)
+    .json({
+      message: ``
+    });
+});
 
 module.exports = {
   name: `--server`,
+  // eslint-disable-next-line consistent-return
   async run(args) {
     const [userPort] = args;
     const serverPort = Number.parseInt(userPort, 10) || DEFAULT_PORT;
 
     try {
-      app.listen(serverPort, (err) => {
-        if (err) {
-          return console.error(chalk.red(`Error while creating server: ${err}`));
-        }
-
-        return console.info(chalk.green(`Server start on port ${serverPort}`));
-      });
+      await app.listen(serverPort);
+      return console.info(chalk.green(`Server start on port ${serverPort}`));
     } catch (err) {
       console.error(chalk.red(`Error: ${err}`));
       process.exit(ExitCode.ERROR);

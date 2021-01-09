@@ -1,6 +1,6 @@
 'use strict';
 
-const { Router } = require(`express`);
+const {Router} = require(`express`);
 const mainRoutes = new Router();
 
 mainRoutes.get(`/`, (req, res) => {
@@ -16,11 +16,11 @@ mainRoutes.get(`/login`, (req, res) => {
 });
 
 mainRoutes.get(`/search`, (req, res) => {
-  res.render(`search`, { isColorBackground: `baseColor` });
+  res.render(`search`, {isColorBackground: `baseColor`});
 });
 
 mainRoutes.get(`/categories`, (req, res) => {
   res.render(`categories`);
-})
+});
 
 module.exports = mainRoutes;

@@ -2,13 +2,13 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const { nanoid } = require(`nanoid`);
+const {nanoid} = require(`nanoid`);
 const path = require(`path`);
 const {
   getRandomInt,
   shuffle,
 } = require(`../../utils.js`);
-const { MAX_ID_LENGTH } = require(`../../constants`);
+const {MAX_ID_LENGTH} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `./mocks.json`;
@@ -40,11 +40,11 @@ const generateCommments = (count, comments) => {
         .slice(0, getRandomInt(1, 3))
         .join(` `),
     }));
-}
+};
 
 const generatePosts = (count, options) => {
   const {titles, sentences, categories, comments} = options;
-  
+
   return Array(count)
     .fill({})
     .map(() => ({
@@ -61,7 +61,7 @@ const generatePosts = (count, options) => {
 const readContent = async (filePath) => {
   try {
     const content = await fs.readFile(filePath, `utf-8`);
-    return content.trim().split(`\n`).filter(it => it.trim());
+    return content.trim().split(`\n`).filter((it) => it.trim());
   } catch (err) {
     console.error(chalk.red(err));
     return [];
@@ -77,7 +77,7 @@ module.exports = {
       categories: await readContent(path.resolve(__dirname, FILE_CATEGORIES_PATH)),
       comments: await readContent(path.resolve(__dirname, FILE_COMMENTS_PATH)),
     };
-    
+
     const [count] = args;
     const countPosts = Number.parseInt(count, 10) || DEFAULT_COUNT;
     const content = JSON.stringify(generatePosts(countPosts, options));

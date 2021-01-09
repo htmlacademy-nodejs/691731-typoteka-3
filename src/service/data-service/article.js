@@ -1,7 +1,7 @@
 'use strict';
 
-const { nanoid } = require(`nanoid`);
-const { MAX_ID_LENGTH } = require(`../../constants`);
+const {nanoid} = require(`nanoid`);
+const {MAX_ID_LENGTH} = require(`../../constants`);
 
 class ArticleService {
   constructor(articles) {
@@ -10,6 +10,7 @@ class ArticleService {
 
   /**
    * Return all articles
+   * @return {Array} articles
    */
   findAll() {
     return this._articles;
@@ -18,7 +19,7 @@ class ArticleService {
   /**
    * Return article with id
    * @param {String} id
-   * @returns {Object} article
+   * @return {Object} article
    */
   findOne(id) {
     return this._articles.find((it) => it.id === id);
@@ -27,7 +28,7 @@ class ArticleService {
   /**
    * Create new article
    * @param {Object} article
-   * @returns {Object} new article
+   * @return {Object} new article
    */
   create(article) {
     const newArticle = Object
@@ -36,16 +37,16 @@ class ArticleService {
         createdDate: new Date(),
         comments: []
       }, article);
-    
+
     this._articles.push(newArticle);
     return newArticle;
   }
 
   /**
    * Update exist article
-   * @param {String} id 
+   * @param {String} id
    * @param {Object} article
-   * @returns {Object} updated article 
+   * @return {Object} updated article
    */
   update(id, article) {
     const oldArticle = this._articles.find((it) => it.id === id);
@@ -62,7 +63,7 @@ class ArticleService {
   /**
    * Delete article with articleId
    * @param {String} articleId
-   * @returns {Object} deleted article 
+   * @return {Object} deleted article
    */
   drop(articleId) {
     const article = this._articles.find((it) => it.id === articleId);

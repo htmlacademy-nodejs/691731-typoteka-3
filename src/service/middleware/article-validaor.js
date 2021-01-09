@@ -1,6 +1,6 @@
 'use strict';
 
-const { HttpCode } = require(`../../constants`);
+const {HttpCode} = require(`../../constants`);
 
 const postKeys = [`title`, `category`, `announce`];
 

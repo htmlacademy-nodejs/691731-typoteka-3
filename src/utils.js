@@ -3,9 +3,9 @@
 /**
  * Перетасовка по алгоритму
  * Фишера-Йетаса.
- * 
+ *
  * Функция возвращает новый массив
- * 
+ *
  * @param {array} array
  * @return {array}
  */
@@ -22,7 +22,7 @@ const shuffle = (array) => {
 /**
  * Возвращает случайное число в диапазаоне
  * `min` и `max`
- * 
+ *
  * @param {Number} min
  * @param {Number} max
  * @return {Number}
