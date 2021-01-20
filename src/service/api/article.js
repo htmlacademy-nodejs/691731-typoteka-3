@@ -6,9 +6,9 @@ const articleExist = require(`../middleware/article-exist`);
 const articleValidator = require(`../middleware/article-validator`);
 const commentValidator = require(`../middleware/comment-validator`);
 
-const route = new Router();
 
 module.exports = (app, articleService, commentService) => {
+  const route = new Router();
   app.use(`/articles`, route);
 
   // GET /api/articles — return list of articles
@@ -150,7 +150,7 @@ module.exports = (app, articleService, commentService) => {
       const comment = commentService.create(article, req.body);
 
       return res
-        .status(HttpCode.OK)
+        .status(HttpCode.CREATED)
         .json({
           status: MessageStatus.SUCCESS,
           data: comment
