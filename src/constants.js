@@ -23,3 +23,8 @@ module.exports.MessageStatus = {
   FAIL: `fail`,
   ERROR: `error`,
 };
+
+module.exports.Env = {
+  DEVELOPMENT: `development`,
+  PRODUCTION: `production`,
+};
