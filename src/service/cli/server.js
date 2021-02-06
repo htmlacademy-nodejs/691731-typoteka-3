@@ -38,7 +38,11 @@ app.use((err, req, res, _next) => {
       data: []
     });
 
-  logger.error(`${res.body.message}: An error occured on processing request: ${err.message}`); // Если правильно понимаю, то в режиме production теперь все ошибки будут писаться в log-файл и выводиться в консоль только в режиме development
+  logger.error(`${res.body.message}: An error occured on processing request: ${err.message}`);
+});
+
+process.on(`unhandledRejection`, (reason, promise) => {
+  logger.error(`Unhandled Rejection at: ${promise}, reason: ${reason}`);
 });
 
 module.exports = {
