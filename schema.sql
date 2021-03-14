@@ -43,7 +43,7 @@ CREATE TABLE post_categories (
 
 CREATE TABLE pictures(
   id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  images text NOT NULL,
+  picture text NOT NULL,
   post_id integer,
   FOREIGN KEY (post_id) REFERENCES posts
           ON DELETE CASCADE
