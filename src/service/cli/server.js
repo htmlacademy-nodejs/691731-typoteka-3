@@ -3,6 +3,7 @@
 const chalk = require(`chalk`);
 const express = require(`express`);
 const routes = require(`../api`);
+const sequelize = require(`../lib/sequelize`);
 const {getLogger} = require(`../lib/logger`);
 const {API_PREFIX, ExitCode, HttpCode, MessageStatus} = require(`../../constants`);
 
@@ -49,6 +50,15 @@ module.exports = {
   name: `--server`,
   // eslint-disable-next-line consistent-return
   async run(args) {
+    try {
+      logger.info(`Trying to connect to database...`);
+      await sequelize.authenticate();
+    } catch (err) {
+      logger.error(`An error occured: ${err.message}`);
+      process.env(ExitCode.ERROR);
+    }
+    logger.info(`Connection to database established`);
+
     const [userPort] = args;
     const serverPort = Number.parseInt(userPort, 10) || DEFAULT_PORT;
 
