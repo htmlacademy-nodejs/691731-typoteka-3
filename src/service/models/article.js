@@ -9,8 +9,12 @@ const define = (sequelize) => Article.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
-  sentence: {
-    type: DataTypes.STRING,
+  announce: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  fullText: {
+    type: DataTypes.TEXT,
     allowNull: false,
   },
 }, {
