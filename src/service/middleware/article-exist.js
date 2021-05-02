@@ -2,7 +2,6 @@
 
 const {HttpCode} = require(`../../constants`);
 
-// eslint-disable-next-line consistent-return
 module.exports = (articleService) => (req, res, next) => {
   const {articleId} = req. params;
   const article = articleService.findOne(articleId);
@@ -13,5 +12,5 @@ module.exports = (articleService) => (req, res, next) => {
   }
 
   res.locals.article = article;
-  next();
+  return next();
 };
