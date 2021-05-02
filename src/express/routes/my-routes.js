@@ -15,7 +15,7 @@ myRoutes.get(`/`, async (req, res) => {
 });
 
 myRoutes.get(`/comments`, async (req, res) => {
-  const body = await api.getArticles();
+  const body = await api.getArticles({comments: true});
   const myArticles = body.data.slice(0, 3);
   res.render(`comments`, {
     isColorBackground: `noColor`,

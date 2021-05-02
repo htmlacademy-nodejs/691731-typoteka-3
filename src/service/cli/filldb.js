@@ -37,7 +37,7 @@ const generateCommments = (count, comments) => {
 };
 
 const generateImgName = () => {
-  const imgName = [`forest`, `sea`, `skyscrapper`];
+  const imgName = [`forest`, `sea`, `skyscraper`];
   return Array(1).fill({}).map(() => ({
     src: imgName[getRandomInt(0, imgName.length - 1)]
   }));

@@ -28,6 +28,8 @@ module.exports = (app, articleService, commentService) => {
     const {articleId} = req.params;
     const article = await articleService.findOne(articleId);
 
+    console.log(article.pictures);
+
     if (!article) {
       return res
         .status(HttpCode.NOT_FOUND)

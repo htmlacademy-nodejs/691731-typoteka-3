@@ -26,11 +26,11 @@ class ArticleService {
 
   /**
    * Return article with id
-   * @param {String} id
+   * @param {Number} id
    * @return {Object} article
    */
   findOne(id) {
-    return this._Article.findByPk(id, {include: [Aliase.CATEGORIES, Aliase.PICTURES]});
+    return this._Article.findByPk(id, {include: [Aliase.CATEGORIES, Aliase.PICTURES, Aliase.COMMENTS]});
   }
 
   /**
