@@ -28,8 +28,6 @@ module.exports = (app, articleService, commentService) => {
     const {articleId} = req.params;
     const article = await articleService.findOne(articleId);
 
-    console.log(article.pictures);
-
     if (!article) {
       return res
         .status(HttpCode.NOT_FOUND)
@@ -111,8 +109,8 @@ module.exports = (app, articleService, commentService) => {
 
   // GET /api/articles/:articleId/comments — return list of comments from article with some id;
   route.get(`/:articleId/comments`, articleExist(articleService), async (req, res) => {
-    const {article} = res.locals;
-    const comments = await commentService.findAll(article);
+    const {articleId} = req.params;
+    const comments = await commentService.findAll(articleId);
 
     return res
       .status(HttpCode.OK)
@@ -124,9 +122,8 @@ module.exports = (app, articleService, commentService) => {
 
   // DELETE /api/articles/:articleId/comments/:commentId — удаляет из определённой публикации комментарий с идентификатором
   route.delete(`/:articleId/comments/:commentId`, articleExist(articleService), async (req, res) => {
-    const {article} = res.locals;
     const {commentId} = req.params;
-    const deletedComment = await commentService.drop(article, commentId);
+    const deletedComment = await commentService.drop(commentId);
 
     if (!deletedComment) {
       return res
@@ -149,8 +146,8 @@ module.exports = (app, articleService, commentService) => {
   // eslint-disable-next-line consistent-return
   route.post(`/:articleId/comments`, [articleExist(articleService), commentValidator], async (req, res, next) => {
     try {
-      const {article} = res.locals;
-      const comment = await commentService.create(article, req.body);
+      const {articleId} = req.params;
+      const comment = await commentService.create(articleId, req.body);
 
       return res
         .status(HttpCode.CREATED)

@@ -6,8 +6,8 @@ const path = require(`path`);
 
 const sequelize = require(`../lib/sequelize`);
 const defineModels = require(`../models`);
-const Aliase = require(`../models/aliase`);
 const {getLogger} = require(`../lib/logger`);
+const initDatabase = require(`../lib/init-db`);
 
 const {
   getRandomInt,
@@ -95,7 +95,7 @@ module.exports = {
 
     logger.info(`Connection to database established`);
 
-    const {Article, Category} = defineModels(sequelize);
+    const {Category} = defineModels(sequelize);
     await sequelize.sync({force: true});
 
     const categoriesContent = await readContent(path.resolve(__dirname, FILE_CATEGORIES_PATH));
@@ -115,13 +115,6 @@ module.exports = {
     const countArticles = Number.parseInt(count, 10) || DEFAULT_COUNT;
     const articles = generateArticles(countArticles, options);
 
-    console.log(articles);
-
-    const articlesPromisees = articles.map(async (article) => {
-      const articleModel = await Article.create(article, {include: [Aliase.COMMENTS, Aliase.PICTURES]});
-      await articleModel.addCategories(article.categories);
-    });
-
-    await Promise.all(articlesPromisees);
+    return initDatabase(sequelize, {articles, categoryModels});
   }
 };

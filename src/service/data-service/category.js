@@ -8,14 +8,9 @@ class CategoryService {
     this._Category = sequelize.models.Category;
     this._ArticleCategory = sequelize.models.ArticleCategory;
   }
-  /**
-   * Return list of all categories
-   * @param {Any} needCount - if needCount === undefine or null, then method return categories wthout count
-   * @return {Array} list of categories
-   */
+
   async findAll(needCount) {
-    console.log(typeof needCount);
-    if (needCount !== null || needCount !== undefined) {
+    if (needCount) {
       const result = await this._Category.findAll({
         attributes: [
           `id`,
@@ -36,8 +31,9 @@ class CategoryService {
         }]
       });
       return result.map((it) => it.get());
+    } else {
+      return this._Category.findAll({raw: true});
     }
-    return this._Category.findAll({raw: true});
   }
 }
 
