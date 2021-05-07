@@ -2,10 +2,10 @@
 
 const {HttpCode} = require(`../../constants`);
 
-// eslint-disable-next-line consistent-return
-module.exports = (articleService) => (req, res, next) => {
-  const {articleId} = req. params;
-  const article = articleService.findOne(articleId);
+module.exports = (articleService) => async (req, res, next) => {
+  const {articleId} = req.params;
+  const article = await articleService.findOne(articleId);
+
   if (!article) {
     return res
       .status(HttpCode.NOT_FOUND)
@@ -13,5 +13,5 @@ module.exports = (articleService) => (req, res, next) => {
   }
 
   res.locals.article = article;
-  next();
+  return next();
 };

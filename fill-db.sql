@@ -21,18 +21,18 @@ INSERT INTO categories (title) VALUES
 /*
   Fill table of posts
 */
-ALTER TABLE posts DISABLE TRIGGER ALL;
-INSERT INTO posts (title, text, user_id) VALUES
+ALTER TABLE articles DISABLE TRIGGER ALL;
+INSERT INTO articles (title, text, user_id) VALUES
 ('Учим HTML и CSS', 'Достичь успеха помогут ежедневные повторения. Помните, небольшое количество ежедневных упражнений лучше, чем один раз, но много. Игры и программирование разные вещи. Не стоит идти в программисты, если вам нравятся только игры.', 1),
 ('Лучшие рок-музыканты 20-века', 'Ёлки — это не просто красивое дерево. Это прочная древесина. Первая большая ёлка была установлена только в 1938 году. Вы можете достичь всего. Стоит только немного постараться и запастись книгами. Этот смартфон — настоящая находка. Большой и яркий экран, мощнейший процессор — всё это в небольшом гаджете.', 1),
 ('Как достигнуть успеха не вставая с кресла', 'Золотое сечение — соотношение двух величин, гармоническая пропорция. Собрать камни бесконечности легко, если вы прирожденный герой. Освоить вёрстку несложно. Возьмите книгу новую книгу и закрепите все упражнения на практике. Бороться с прокрастинацией несложно. Просто действуйте. Маленькими шагами.',2);
-ALTER TABLE posts ENABLE TRIGGER ALL;
+ALTER TABLE articles ENABLE TRIGGER ALL;
 
 /*
   Fill table of post_categories
 */
-ALTER TABLE post_categories DISABLE TRIGGER ALL;
-INSERT INTO post_categories (post_id, category_id) VALUES
+ALTER TABLE artcle_categories DISABLE TRIGGER ALL;
+INSERT INTO post_categories (article_id, category_id) VALUES
 (1, 1),
 (1, 3),
 (1, 2),
@@ -42,13 +42,13 @@ INSERT INTO post_categories (post_id, category_id) VALUES
 (3, 4),
 (3, 6),
 (3, 7);
-ALTER TABLE post_categories ENABLE TRIGGER ALL;
+ALTER TABLE article_categories ENABLE TRIGGER ALL;
 
 /*
   Fill table of picture
 */
 ALTER TABLE pictures DISABLE TRIGGER ALL;
-INSERT INTO pictures (picture, post_id) VALUES
+INSERT INTO pictures (picture, article_id) VALUES
 ('forest', 1),
 ('sea', 2),
 ('skyscrapper', 3);
@@ -58,7 +58,7 @@ ALTER TABLE pictures ENABLE TRIGGER ALL;
   Fill table of comments
 */
 ALTER TABLE comments DISABLE TRIGGER ALL;
-INSERT INTO comments(text, user_id, post_id) VALUES
+INSERT INTO comments(text, user_id, article_id) VALUES
 ('Это где ж такие красоты?', 1, 2),
 ('Совсем немного...', 1, 1),
 ('Согласен с автором!', 1, 2),

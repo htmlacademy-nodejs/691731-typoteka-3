@@ -51,13 +51,13 @@ articlesRoutes.get(`/add`, async (req, res) => {
 articlesRoutes.post(`/add`, upload.single(`upload`), async (req, res) => {
   const {body, file} = req;
   const articleData = {
-    picture: file.filename,
+    pictures: [{src: file.filename}],
     createdDate: new Date(),
     id: nanoid(MAX_ID_LENGTH),
     title: body.title,
     announce: body.announce,
     fullText: body.fullText,
-    category: [],
+    categories: body.category,
     comments: []
   };
   console.log(articleData);

@@ -8,6 +8,12 @@ case isColorBackground
   when `baseColor`
     - var wrapperColor = `-color`
 
+-
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  }
+
 html(lang=ru)
   head
     meta(charset='utf-8')

@@ -12,7 +12,7 @@ block content
         if results.data.length > 0
           each result in results.data
             .search__result
-              time.search__date(datetime=``) #{result.createdDate}
+              time.search__date(datetime=result.createdAt) #{formatDate(result.createdAt)}
               a(class="search__link" href=`/articles/${result.id}`) #{result.title}
         else if results.data.length === 0
           p.search-page__empty Ничего не нашлось

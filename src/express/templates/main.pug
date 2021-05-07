@@ -1,11 +1,11 @@
 extends layout
 block content
+
   main.main-page
     h1.visually-hidden Главная страница личного блога Типотека
     p.
-      
       Это приветственный текст, который владелец блога может выбрать, чтобы описать себя 👏
-      
+
     section.main-page__theme-list
       h2.visually-hidden Список тем
       include partials/theme-list
@@ -24,7 +24,6 @@ block content
               | Сервис для аналитики Telegram-чатов Combot попал под блокировку из-за информации на служебной 
               sup.hot__link-sup 15
               |  странице
-
           li.hot__list-item.hot__list-item--margin
             a.hot__list-link(href='#')
               | Модель Кайли Дженнер продаст 51% своей компании Kylie Cosmetics владельцу Factor за $600 млн 
@@ -56,19 +55,20 @@ block content
         each article in articles
           li.preview__item
             ul.preview__breadcrumbs
-              each category in article.category
+              each category in article.categories
                 li.preview__breadcrumbs-item
-                  a.preview__breadcrumbs-link(href='#') #{category}
+                  a.preview__breadcrumbs-link(href='#') #{category.name}
             .preview__background
-              img.preview__background-image(src='/img/skyscraper@1x.jpg' width='460' height='240' srcset='/img/skyscraper@1x.jpg, /img/skyscraper@2x.jpg 2x' alt='Фотография небоскреба')
-            time.preview__time(datetime='2019-03-21T20:33') #{article.createdDate}
+              each picture in article.pictures
+                img.preview__background-image(src=`/img/${picture.src}@1x.jpg` width='460' height='240' srcset=`/img/${picture.src}@1x.jpg, /img/${picture.src}@2x.jpg 2x` alt='Фотография небоскреба')
+            time.preview__time(datetime=article.createdAt) #{formatDate(article.createdAt)}
             h3.preview__name
               a.preview__name-link(href=`/articles/${article.id}`) #{article.title}
             p.preview__text #{article.announce}
             a.preview__comment(href='#')
               | Комментарии 
               span.preview__cloud
-              |  
+              |
               b.preview__comment-count #{article.comments.length}
     .preview__toggle-wrapper
       ul.preview__pagination.pagination

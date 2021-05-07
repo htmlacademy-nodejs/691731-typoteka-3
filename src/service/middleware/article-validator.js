@@ -2,7 +2,7 @@
 
 const {HttpCode} = require(`../../constants`);
 
-const postKeys = [`title`, `category`, `announce`];
+const postKeys = [`title`, `categories`, `announce`, `fullText`];
 
 module.exports = (req, res, next) => {
   const newPost = req.body;
@@ -10,10 +10,10 @@ module.exports = (req, res, next) => {
   const keyExist = postKeys.every((key) => keys.includes(key));
 
   if (!keyExist) {
-    res
+    return res
       .status(HttpCode.BAD_REQUEST)
       .send(`Bad request`);
   }
 
-  next();
+  return next();
 };

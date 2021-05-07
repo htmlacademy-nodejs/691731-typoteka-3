@@ -12,8 +12,9 @@ module.exports = (app, articleService, commentService) => {
   app.use(`/articles`, route);
 
   // GET /api/articles — return list of articles
-  route.get(`/`, (req, res) => {
-    const articles = articleService.findAll();
+  route.get(`/`, async (req, res) => {
+    const {comments} = req.query;
+    const articles = await articleService.findAll(comments);
     return res
       .status(HttpCode.OK)
       .json({
@@ -23,9 +24,9 @@ module.exports = (app, articleService, commentService) => {
   });
 
   // GET /api/articles/:articleId — return article with some id
-  route.get(`/:articleId`, (req, res) => {
+  route.get(`/:articleId`, async (req, res) => {
     const {articleId} = req.params;
-    const article = articleService.findOne(articleId);
+    const article = await articleService.findOne(articleId);
 
     if (!article) {
       return res
@@ -46,9 +47,9 @@ module.exports = (app, articleService, commentService) => {
 
   // POST /api/articles — create new article;
   // eslint-disable-next-line consistent-return
-  route.post(`/`, articleValidator, (req, res, next) => {
+  route.post(`/`, articleValidator, async (req, res, next) => {
     try {
-      const article = articleService.create(req.body);
+      const article = await articleService.create(req.body);
       return res
         .status(HttpCode.CREATED)
         .json({
@@ -61,9 +62,9 @@ module.exports = (app, articleService, commentService) => {
   });
 
   // PUT /api/articles/:articleId — edit article with some id;
-  route.put(`/:articleId`, articleValidator, (req, res) => {
+  route.put(`/:articleId`, articleValidator, async (req, res) => {
     const {articleId} = req.params;
-    const existArticle = articleService.findOne(articleId);
+    const existArticle = await articleService.findOne(articleId);
 
     if (!existArticle) {
       return res
@@ -74,7 +75,7 @@ module.exports = (app, articleService, commentService) => {
         });
     }
 
-    const updateArticle = articleService.update(articleId, req.body);
+    const updateArticle = await articleService.update(articleId, req.body);
 
     return res
       .status(HttpCode.OK)
@@ -85,9 +86,9 @@ module.exports = (app, articleService, commentService) => {
   });
 
   // DELETE /api/articles/:articleId — delete article with some id;
-  route.delete(`/:articleId`, (req, res) => {
+  route.delete(`/:articleId`, async (req, res) => {
     const {articleId} = req.params;
-    const article = articleService.drop(articleId);
+    const article = await articleService.drop(articleId);
 
     if (!article) {
       return res
@@ -107,9 +108,9 @@ module.exports = (app, articleService, commentService) => {
   });
 
   // GET /api/articles/:articleId/comments — return list of comments from article with some id;
-  route.get(`/:articleId/comments`, articleExist(articleService), (req, res) => {
-    const {article} = res.locals;
-    const comments = commentService.findAll(article);
+  route.get(`/:articleId/comments`, articleExist(articleService), async (req, res) => {
+    const {articleId} = req.params;
+    const comments = await commentService.findAll(articleId);
 
     return res
       .status(HttpCode.OK)
@@ -120,10 +121,9 @@ module.exports = (app, articleService, commentService) => {
   });
 
   // DELETE /api/articles/:articleId/comments/:commentId — удаляет из определённой публикации комментарий с идентификатором
-  route.delete(`/:articleId/comments/:commentId`, articleExist(articleService), (req, res) => {
-    const {article} = res.locals;
+  route.delete(`/:articleId/comments/:commentId`, articleExist(articleService), async (req, res) => {
     const {commentId} = req.params;
-    const deletedComment = commentService.drop(article, commentId);
+    const deletedComment = await commentService.drop(commentId);
 
     if (!deletedComment) {
       return res
@@ -144,10 +144,10 @@ module.exports = (app, articleService, commentService) => {
 
   // POST /api/articles/:articleId/comments — создаёт новый комментарий;
   // eslint-disable-next-line consistent-return
-  route.post(`/:articleId/comments`, [articleExist(articleService), commentValidator], (req, res, next) => {
+  route.post(`/:articleId/comments`, [articleExist(articleService), commentValidator], async (req, res, next) => {
     try {
-      const {article} = res.locals;
-      const comment = commentService.create(article, req.body);
+      const {articleId} = req.params;
+      const comment = await commentService.create(articleId, req.body);
 
       return res
         .status(HttpCode.CREATED)

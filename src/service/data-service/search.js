@@ -1,8 +1,11 @@
 'use strict';
 
+const {Op} = require(`sequelize`);
+const Aliase = require(`../models/aliase`);
+
 class SearchService {
-  constructor(articles) {
-    this._articles = articles;
+  constructor(sequelize) {
+    this._Article = sequelize.models.Article;
   }
 
   /**
@@ -10,9 +13,16 @@ class SearchService {
    * @param {String} searchText
    * @return {Array} articles
    */
-  findAll(searchText) {
-    return this._articles
-      .filter((article) => article.title.includes(searchText));
+  async findAll(searchText) {
+    const artcles = await this._Article.findAll({
+      where: {
+        title: {
+          [Op.substring]: searchText,
+        }
+      },
+      include: [Aliase.CATEGORIES],
+    });
+    return artcles.map((article) => article.get());
   }
 }
 

@@ -1,38 +1,38 @@
 'use strict';
 
-const got = require(`got`);
+const axios = require(`axios`);
 
 class API {
-  constructor(prefixUrl, timeout = 1000) {
-    this._http = got.extend({
-      prefixUrl,
+  constructor(baseURL, timeout = 1000) {
+    this._http = axios.create({
+      baseURL,
       timeout,
     });
   }
 
   async _load(url, options) {
-    const response = await this._http({url, ...options});
-    return JSON.parse(response.body);
+    const response = await this._http.request({url, ...options});
+    return response.data;
   }
 
-  getArticles() {
-    return this._load(`articles`);
+  getArticles(comments) {
+    return this._load(`/articles`, {params: {comments}});
   }
 
   getArticleId(id) {
-    return this._load(`articles/${id}`);
+    return this._load(`/articles/${id}`);
   }
 
   search(query) {
-    return this._load(`search`, {searchParams: {query}});
+    return this._load(`/search`, {params: {query}});
   }
 
-  getCategories() {
-    return this._load(`categories`);
+  getCategories(count) {
+    return this._load(`/categories`, {params: {count}});
   }
 
   async createArticle(data) {
-    const {body} = this._load(`articles`, {
+    const {body} = this._load(`/articles`, {
       method: `POST`,
       json: data,
       responseType: `json`
@@ -43,7 +43,7 @@ class API {
 }
 
 const PORT = process.env.API_PORT || 3000;
-const DEFAULT_URL = `http://localhost:${PORT}/api`;
+const DEFAULT_URL = `http://localhost:${PORT}/api/`;
 
 const defaultAPI = new API(DEFAULT_URL);
 
