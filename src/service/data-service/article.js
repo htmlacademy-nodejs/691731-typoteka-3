@@ -25,6 +25,24 @@ class ArticleService {
   }
 
   /**
+   * Return {limit} articles started on {offset} article
+   */
+  async findPage({limit, offset, comments}) {
+    const include = [Aliase.CATEGORIES, Aliase.PICTURES];
+    if (comments) {
+      include.push(Aliase.COMMENTS);
+    }
+    const {count, rows} = await this._Article.findAndCountAll({
+      limit,
+      offset,
+      include,
+      distict: true,
+    });
+    console.log(offset);
+    return {count, articles: rows};
+  }
+
+  /**
    * Return article with id
    * @param {Number} id
    * @return {Object} article
