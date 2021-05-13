@@ -13,8 +13,8 @@ module.exports = (app, articleService, commentService) => {
 
   // GET /api/articles — return list of articles
   route.get(`/`, async (req, res) => {
-    const {comments} = req.query;
-    const articles = await articleService.findAll(comments);
+    const {offset, limit, comments} = req.query;
+    const articles = (limit || offset) ? await articleService.findPage({limit, offset, comments}) : await articleService.findAll(comments);
     return res
       .status(HttpCode.OK)
       .json({
